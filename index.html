@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İstanbulunModu | Hava Durumu Sistemi</title>
-    <link rel="stylesheet" href="/static/style.css">
-</head>
+    <title>İstanbulunModu AI</title>
+    <link rel="stylesheet" href="style.css"> </head>
 <body>
-    <div class="chat-container">
-        <div class="header">İSTANBULUNMODU AI</div>
-        <div id="chat-box" class="chat-box"></div>
-        <div class="input-area">
-            <input type="text" id="user-input" placeholder="Hava durumunu veya depremleri sor...">
-            <button onclick="send()">Gönder</button>
+    <div style="background:#0b0e14; color:white; font-family:sans-serif; height:100vh; display:flex; flex-direction:column; padding:20px;">
+        <h2 style="color:#00a8ff; text-align:center;">İstanbulunModu Hava Durumu Sistemi</h2>
+        <div id="chat" style="flex:1; overflow-y:auto; border:1px solid #333; padding:15px; margin-bottom:10px; border-radius:10px;"></div>
+        <div style="display:flex; gap:10px;">
+            <input type="text" id="msg" placeholder="Mesajınızı yazın..." style="flex:1; padding:12px; border-radius:8px; border:none;">
+            <button onclick="send()" style="background:#00a8ff; color:white; border:none; padding:10px 20px; border-radius:8px; font-weight:bold;">GÖNDER</button>
         </div>
     </div>
+
     <script>
         async function send() {
-            const i = document.getElementById('user-input');
-            const b = document.getElementById('chat-box');
-            if(!i.value.trim()) return;
-            b.innerHTML += `<div class="msg user">${i.value}</div>`;
+            const i = document.getElementById('msg');
+            const c = document.getElementById('chat');
+            if(!i.value) return;
+            c.innerHTML += `<div style="text-align:right; margin-bottom:10px;"><span style="background:#00a8ff; padding:8px 12px; border-radius:10px;">${i.value}</span></div>`;
             const val = i.value; i.value = '';
             const res = await fetch('/chat', {
                 method: 'POST',
@@ -28,8 +28,8 @@
                 body: JSON.stringify({message: val})
             });
             const d = await res.json();
-            b.innerHTML += `<div class="msg ai">${d.reply}</div>`;
-            b.scrollTop = b.scrollHeight;
+            c.innerHTML += `<div style="margin-bottom:10px;"><span style="background:#333; padding:8px 12px; border-radius:10px;">${d.reply}</span></div>`;
+            c.scrollTop = c.scrollHeight;
         }
     </script>
 </body>
