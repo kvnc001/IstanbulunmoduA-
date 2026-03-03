@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İstanbulunModu | Hava Durumu Sistemi</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="header">İSTANBULUNMODU AI</div>
+        <div id="chat-box" class="chat-box"></div>
+        <div class="input-area">
+            <input type="text" id="user-input" placeholder="Hava durumunu veya depremleri sor...">
+            <button onclick="send()">Gönder</button>
+        </div>
+    </div>
+    <script>
+        async function send() {
+            const i = document.getElementById('user-input');
+            const b = document.getElementById('chat-box');
+            if(!i.value.trim()) return;
+            b.innerHTML += `<div class="msg user">${i.value}</div>`;
+            const val = i.value; i.value = '';
+            const res = await fetch('/chat', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({message: val})
+            });
+            const d = await res.json();
+            b.innerHTML += `<div class="msg ai">${d.reply}</div>`;
+            b.scrollTop = b.scrollHeight;
+        }
+    </script>
+</body>
+</html>
