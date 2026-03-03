@@ -23,4 +23,5 @@ def chat():
         response = model.generate_content(f"{instruction}\nSoru: {user_input}")
         return jsonify({"reply": response.text})
     except Exception as e:
+        print(f"HATA: {e}")
         return jsonify({"reply": "API anahtarı hatası veya bağlantı sorunu."}), 500
